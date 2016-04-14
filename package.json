@@ -1,0 +1,23 @@
+{
+  "name": "NetworkDashboard",
+  "version": "1.0.0",
+  "description": "Network Dashboard",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.3.0",
+    "grunt-contrib-requirejs": "~0.4.0",
+    "moment": "^2.12.0",
+    "mongoose": "^4.4.12",
+    "uglify-js": "~2.2.5",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "backgrid": "^0.3.7",
+    "datatables.net": "^1.10.11",
+    "knockout": "^3.4.0",
+    "livereload": "^0.4.1"
+  }
+}

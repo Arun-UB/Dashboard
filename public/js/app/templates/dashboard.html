@@ -1,0 +1,65 @@
+	<div class="container">
+		<div class="header clearfix">
+			<h3 class="text-muted">Network Dashboard</h3>
+		</div>
+		<div class="pull-left">
+		</div>
+		<div class="btn-group pull-right" data-toggle="buttons">
+			<label class="btn btn-default active">
+				<input type="radio" name="options" id="option1" autocomplete="off" checked> All Time
+			</label>
+			<label class="btn btn-default">
+				<input type="radio" name="options" id="option2" autocomplete="off"> Past Day
+			</label>
+			<label class="btn btn-default">
+				<input type="radio" name="options" id="option3" autocomplete="off"> Past Month
+			</label>
+		</div>
+		<br>
+		<div class="graph_area row">
+			<div class="col-md-6" id="sum_bytes"></div>
+			<div class="col-md-6" id="sum_packets"></div>	
+		</div>
+		
+	</div> <!-- /container -->   
+
+	<div class="container">
+		<div class="row">
+
+		  <div class="col-lg-4 pull-right">
+		  <input type="text" class="form-control" placeholder="Search">
+		  </div>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Time</th>
+					<th>Destination IP</th>
+					<th>Destination VN</th>
+					<th>Destination Port</th>
+					<th>Protocol</th>
+					<th>Source IP</th>
+					<th>Source VN</th>
+					<th>Source Port</th>
+					<th>Bytes(kb)</th>
+					<th>Packets</th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: records">
+				<tr>
+					<td data-bind="text: source_port"></td>
+					<td data-bind="text: destination_ip"></td>
+					<td data-bind="text: destination_vn"></td>
+					<td data-bind="text: destination_port"></td>
+					<td data-bind="text: protocol"></td>
+					<td data-bind="text: source_ip"></td>
+					<td data-bind="text: source_vn"></td>
+					<td data-bind="text: source_port"></td>
+					<td data-bind="text: sum_bytes_kb"></td>
+					<td data-bind="text: sum_packets"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+	<div>

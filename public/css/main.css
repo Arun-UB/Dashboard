@@ -1,0 +1,9 @@
+@import url("bootstrap.min.css");
+@import url("bootstrap-theme.css");
+@import url("jumbotron-narrow.css");
+@import url("metricsgraphics.css");
+@import url("datatables.min.css");
+
+.graph_area{
+	padding-top: 35px;
+}
