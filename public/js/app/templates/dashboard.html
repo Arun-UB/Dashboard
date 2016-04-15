@@ -21,45 +21,67 @@
 			<div class="col-md-6" id="sum_packets"></div>	
 		</div>
 		
-	</div> <!-- /container -->   
+	</div>    
 
 	<div class="container">
 		<div class="row">
 
-		  <div class="col-lg-4 pull-right">
-		  <input type="text" class="form-control" placeholder="Search">
-		  </div>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Time</th>
-					<th>Destination IP</th>
-					<th>Destination VN</th>
-					<th>Destination Port</th>
-					<th>Protocol</th>
-					<th>Source IP</th>
-					<th>Source VN</th>
-					<th>Source Port</th>
-					<th>Bytes(kb)</th>
-					<th>Packets</th>
-				</tr>
-			</thead>
-			<tbody data-bind="foreach: records">
-				<tr>
-					<td data-bind="text: source_port"></td>
-					<td data-bind="text: destination_ip"></td>
-					<td data-bind="text: destination_vn"></td>
-					<td data-bind="text: destination_port"></td>
-					<td data-bind="text: protocol"></td>
-					<td data-bind="text: source_ip"></td>
-					<td data-bind="text: source_vn"></td>
-					<td data-bind="text: source_port"></td>
-					<td data-bind="text: sum_bytes_kb"></td>
-					<td data-bind="text: sum_packets"></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+			<div class="pull-right">
+				<div class="form-inline">
+					<div class="form-group" data-bind="with:filter">
+					<select id="record-keys" class="form-control" data-bind="value:current_key">
+							<option value="destination_ip">Destination IP</option>
+							<option value="destination_vn">Destination VN</option>
+							<option value="destination_port">Destination Port</option>
+							<option value="destination_port">Protocol</option>
+							<option value="destination_port">Source IP</option>
+							<option value="destination_port">Source VN</option>
+							<option value="destination_port">Source Port</option>
+							<option value="destination_port">Bytes</option>
+							<option value="destination_port">Packets</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select id="record-values" class="form-control">
+							<option value="AL">Alabama</option>
+							<option value="WY">Wyoming</option>
+						</select>
+					</div>
+					<!-- <input class="btn btn-default" type="button" value="Search"> -->
+				</div>
+
+			</div>
+			<table class="table table-hover" data-bind="with:table">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Destination IP</th>
+						<th>Destination VN</th>
+						<th>Destination Port</th>
+						<th>Protocol</th>
+						<th>Source IP</th>
+						<th>Source VN</th>
+						<th>Source Port</th>
+						<th>Bytes(kb)</th>
+						<th>Packets</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: records">
+					<tr>
+						<td data-bind="text: source_port"></td>
+						<td data-bind="text: destination_ip"></td>
+						<td data-bind="text: destination_vn"></td>
+						<td data-bind="text: destination_port"></td>
+						<td data-bind="text: protocol"></td>
+						<td data-bind="text: source_ip"></td>
+						<td data-bind="text: source_vn"></td>
+						<td data-bind="text: source_port"></td>
+						<td data-bind="text: sum_bytes_kb"></td>
+						<td data-bind="text: sum_packets"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
 
-	<div>
+		<div>

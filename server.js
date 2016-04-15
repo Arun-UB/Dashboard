@@ -13,44 +13,41 @@ app.use(express.static(__dirname + '/public'));
 //API for search where all the keys are passed as query string parameters 
 router.route("/records/search")
 .get(function(req,res){
-	var query = mongoOp.find();
-
+	var query ={};
 	var start = moment(req.query.start),end = moment(req.query.end);
-	// if( start.isValid() && end.isValid()){
-	// 	query.where('timestamp').gte(start.unix()).lte(end.unix());
-	// }
+	
 	if(req.query.destination_ip){
-		query.where('destination_ip').in(req.query.destination_ip);
+		query['destination_ip'] = req.query.destination_ip;
 	}
 	if(req.query.destination_vn){
-		query.where('destination_vn').in(req.query.destination_vn);
+		query['destination_vn'] = req.query.destination_vn;
 	}
 	if(req.query.direction_ingress){
-		query.where('direction_ingress').in(req.query.direction_ingress);
+		query['direction_ingress'] = req.query.direction_ingress;
 	}
-	if(req.query.sum_bytes_kb){
-		query.where('sum_bytes_kb').in(req.query.sum_bytes_kb);
+	if(req.query.destination_port){
+		query['destination_port'] = req.query.destination_port;
 	}
 	if(req.query.protocol){
-		query.where('protocol').in(req.query.protocol);
+		query['protocol'] = req.query.protocol;
 	}
 	if(req.query.source_ip){
-		query.where('source_ip').in(req.query.source_ip);
+		query['source_ip'] = req.query.source_ip;
 	}
 	if(req.query.source_vn){
-		query.where('source_vn').in(req.query.source_vn);
+		query['source_vn'] = req.query.source_vn;
 	}
 	if(req.query.source_port){
-		query.where('source_port').in(req.query.source_port);
+		query['source_port'] = req.query.source_port;
 	}
 	if(req.query.sum_bytes_kb){
-		query.where('sum_bytes_kb').in(req.query.sum_bytes_kb);
+		query['sum_bytes_kb'] = req.query.sum_bytes_kb;
 	}
 	if(req.query.sum_packets){
-		query.where('sum_packets').in(req.query.sum_packets);
+		query['sum_packets'] = req.query.sum_packets;
 	}
 
-	query.exec(function(err, results) {
+	mongoOp.find(query,function(err, results) {
 	      if (err) {
 	      	res.status(500).json({error :"Something went wrong!"});
 	      }
@@ -76,8 +73,6 @@ select box suggestions*/
 router.route("/records/keys/:key")
 .get(function(req,res){
 	var keys = Object.keys(mongoOp.schema.paths);
-	keys.splice(keys.indexOf("_id"));
-	keys.splice(keys.indexOf("__V"));
 	var key = req.params.key;
 	var values = {};
 	if (_.indexOf(keys,key)!= -1) {
@@ -85,8 +80,8 @@ router.route("/records/keys/:key")
 			if (err) {
 					res.status(500).json({error :"Something went wrong!"});
                 	}else{
-                		values[key] = data;
-						res.status(200).json({data:values});
+                		// values[key] = data;
+						res.status(200).json({data:data});
 
                 	}
                 });
