@@ -94,6 +94,8 @@ define(["jquery", "backbone", "underscore", "knockout", "knockback", "models/Rec
                         });
                     },
                     reset_records: function() {
+                        records_filter.current_key(null);
+                        records_filter.values([]);                        
                         records.fetch();
                     }
                 }
