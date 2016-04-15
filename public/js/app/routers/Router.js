@@ -23,7 +23,7 @@ define(["jquery", "backbone", "underscore", "knockout", "knockback", "models/Rec
 
             index: function() {
                 // Initializing select2
-
+                var self = this;
                 var $record_keys = $('.record-keys').select2({
                     placeholder: "Select a column",
                 });
@@ -32,45 +32,11 @@ define(["jquery", "backbone", "underscore", "knockout", "knockback", "models/Rec
                 });
                 //Creating Records collection and fetching the data for the first time  
                 var records = new Records();
-                records.fetch();
-                //Graaph configurations
-                function fake_data(length, seconds) {
-                    var d = new Date();
-                    var v = 100000;
-                    var data = [];
-
-                    for (var i = 0; i < length; i++) {
-                        v += (Math.random() - 0.5) * 10000;
-                        data.push({
-                            date: MG.clone(d),
-                            value: v
-                        });
-                        d = new Date(d.getTime() + seconds * 1000);
-                    }
-                    return data;
-                }
-                var less_than_a_minute = fake_data(25, 1);
-                MG.data_graphic({
-                    title: "Total Bytes(kb)",
-                    data: less_than_a_minute,
-                    width: 500,
-                    height: 200,
-                    right: 40,
-                    target: '#sum_bytes',
-                    legend: ['Bytes(kb)'],
-                    legend_target: '.legend'
-                });
-                MG.data_graphic({
-                    title: "Total Packets",
-                    data: less_than_a_minute,
-                    width: 500,
-                    height: 200,
-                    right: 40,
-                    target: '#sum_packets',
-                    legend: ['Packets'],
-                    legend_target: '.legend'
-                });
-
+                records.fetch({success: function (collection, response, options) {
+                             self.renderGraph(collection);  
+                            }});
+               
+          
                 //View models for the grid and the search interface
 
                 var records_table = {
@@ -90,13 +56,18 @@ define(["jquery", "backbone", "underscore", "knockout", "knockback", "models/Rec
                         records.url = "/records/search";
                         records.fetch({
                             data: data,
-                            processData: true
+                            processData: true,
+                            success:function(collection,response){
+                                self.renderGraph(collection);
+                            }
                         });
                     },
                     reset_records: function() {
                         records_filter.current_key(null);
                         records_filter.values([]);                        
-                        records.fetch();
+                        records.fetch({success:function(collection,response){
+                                                        self.renderGraph(collection);
+                                                    }});
                     }
                 }
                 var records_view_model = {
@@ -119,12 +90,45 @@ define(["jquery", "backbone", "underscore", "knockout", "knockback", "models/Rec
                 });
                 records_filter.current_va.subscribe(function(values) {});
 
+            },
+            renderGraph:function(data){
+                var preparedata = function(key){
+                                var timestamp = data.pluck("timestamp");
+                                var keys = data.pluck(key);
+                                var t_key = [];
+                                for (var i = 0; i < timestamp.length; i++) {
+                                    t_key.push({date:new Date(timestamp[i]*1000),value:keys[i]});
+                                }
+                                return t_key;
+                            }
+
+                 MG.data_graphic({
+                                    title: "Total Bytes(kb)",
+                                    data: preparedata('sum_bytes_kb'),
+                                    width: 500,
+                                    height: 200,
+                                    right: 40,
+                                    target: '#sum_bytes',
+                                    legend: ['Bytes(kb)'],
+                                    legend_target: '.legend'
+                                });
+
+                                MG.data_graphic({
+                                    title: "Total Packets",
+                                    data: preparedata('sum_packets'),
+                                    width: 500,
+                                    height: 200,
+                                    right: 40,
+                                    target: '#sum_packets',
+                                    legend: ['Packets'],
+                                    legend_target: '.legend'
+                                });
             }
 
         });
 
-        return Router;
+return Router;
 
-    }
+}
 
 );
