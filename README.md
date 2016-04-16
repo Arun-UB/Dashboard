@@ -1,7 +1,9 @@
-# Dashboard
+## Dashboard
 
-To run the application:
+#Usage
 
 npm install 
+
 grunt 
+
 npm start
